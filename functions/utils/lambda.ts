@@ -376,3 +376,7 @@ export const sendError = (statusCode: StatusCodes, error: any) => {
     headers: { 'Content-Type': 'application/json' },
   };
 };
+
+export const sendBatchFailures = (items: string[]) => {
+  return { batchItemFailures: items.map((item) => ({ itemIdentifier: item })) };
+};

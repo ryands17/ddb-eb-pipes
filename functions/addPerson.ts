@@ -1,4 +1,6 @@
+import { DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { APIGatewayProxyHandlerV2 } from 'aws-lambda';
+import { Resource } from 'sst';
 import { z } from 'zod';
 import { sendError, sendSuccess, StatusCodes } from './utils/lambda';
 import { logger } from './utils/logger';
@@ -15,6 +17,7 @@ const EventSchema = z.object({
         return false;
       }
     })
+    .transform((value) => JSON.parse(value))
     .pipe(
       z.object({
         firstName: z.string(),
@@ -24,8 +27,12 @@ const EventSchema = z.object({
     ),
 });
 
+const client = new DynamoDBClient();
+
 export const handler: APIGatewayProxyHandlerV2 = async (event, context) => {
   logger.addContext(context);
+  Person.setClient(client);
+  Person.setTableName(Resource.personsTable.name);
 
   const parsedEvent = EventSchema.safeParse(event);
 

@@ -14,6 +14,9 @@ importers:
       '@aws-sdk/client-dynamodb':
         specifier: 3.662.0
         version: 3.662.0
+      '@aws-sdk/util-dynamodb':
+        specifier: 3.662.0
+        version: 3.662.0(@aws-sdk/client-dynamodb@3.662.0)
       electrodb:
         specifier: 2.15.0
         version: 2.15.0(@aws-sdk/client-dynamodb@3.662.0)
